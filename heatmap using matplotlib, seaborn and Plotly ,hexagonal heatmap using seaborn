@@ -1,0 +1,52 @@
+	Plot6 , plot 7,plot 8 : heatmap using matplotlib, seaborn and Plotly ,
+Plot9: hexagonal heatmap using seaborn
+import pandas as pd
+from plotnine import *
+import matplotlib.pyplot as plt
+from matplotlib import ticker
+# from ggplot import *
+# from ggplot.stats.stat_function import stat_function # added line
+import seaborn as sns
+import numpy as np
+import plotly.express as px
+
+
+ 
+df = pd.read_csv('covid_ind.csv') #read dataset
+# print(df)
+
+f = {
+        'Confirmed_Cases' : 'sum',
+}
+
+g = df.groupby(['Year', 'Month'])
+# print(g)
+
+# Aggregating Confirmed Cases by Datewise
+v1 = g.agg(f)
+# print(v1.reset_index())
+
+# Converting Pivot table to Dataframe
+sorted_df = v1.reset_index()
+print(sorted_df['Month'].unique())
+print(sorted_df['Year'].unique())
+
+print(sorted_df)
+# Turn long format into a wide format
+df_wide = sorted_df.pivot_table( index='Year', columns='Month', values='Confirmed_Cases')
+print(df_wide)
+# Matplotlib
+print("heatmap using matplotlib")
+plt.imshow(df_wide, cmap='hot', interpolation='nearest')
+plt.show()
+# Seaborn
+print("heatmap using seaborn")
+sns.heatmap(df_wide)
+# Plotly
+print("heatmap using plotly")
+fig.show()
+plt.show()
+# hexagonal heatmap using seaborn
+# sns.heatmap(df_wide)
+sns.jointplot(x=sorted_df['Month'], y=sorted_df['Year'], kind="hex", color="#4CB391")
+print("hexagonal heatmap using seaborn")
