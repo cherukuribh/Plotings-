@@ -1,0 +1,24 @@
+Here I used Plotly to make geospatial  visualization. Because Plotly offers a complete solution to deploying web apps. 
+With Plotly Express intuitive API and Dash Plotly, you can take your geospatial web applications and visualisations to the next level.
+
+import pandas as pd
+#import chart_studio.plotly as py
+import plotly.offline as po
+import plotly.graph_objs as pg
+import matplotlib.pyplot as plt
+%matplotlib inline
+po.init_notebook_mode(connected = True)
+AE = pd.read_csv('geo_data.csv')
+AE.head(10)
+data1 = dict(type = 'choropleth', 
+            locations = AE['WD21NM'], 
+            locationmode = 'country names', 
+            z = AE['BNG_E'], 
+            text = AE['WD21CD'])
+layout = dict(title = 'Wards in Great Britain as at December 2021', 
+              geo = dict(scope = 'world', 
+                         showlakes = True, 
+                         lakecolor = 'rgb(0,191,255)'))
+x = pg.Figure(data = [data1], 
+              layout = layout)
+po.iplot(x)
