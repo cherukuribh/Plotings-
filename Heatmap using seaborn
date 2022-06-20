@@ -1,0 +1,30 @@
+plot3: Heatmap using seaborn
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.read_csv('newdata.csv') #read file
+df.head(10) #prints 10 rows 
+
+sorted_df = df.groupby('discipline').gender.value_counts().unstack() #selected sub group
+print(sorted_df)
+
+display = sns.heatmap(sorted_df,annot=True) # heat map using seaborn
+#ax = sorted_df.plot.bar(stacked=True)
+plt.ylabel('discipline') 
+plt.xlabel('count --> male nd female')
+# show the graph    
+plt.title('Male & Female athelets in each discipline')
+
+for bar in display.patches:
+    height = bar.get_height()
+    width = bar.get_width()
+    x = bar.get_x()
+    y = bar.get_y()
+    label_text = height
+    label_x = x + width / 2
+    label_y = y + height / 2
+    ax.text(label_x, label_y, label_text, ha='center',    
+            va='center',rotation='vertical')
+
+plt.show()
