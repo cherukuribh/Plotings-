@@ -1,0 +1,39 @@
+	plot 4: stacked bar chart using seaborn
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.read_csv('newdata.csv') #read file
+df.head(10) #prints 10 rows 
+
+plt.figure()
+
+ax = sns.histplot(
+    df,
+    x='discipline',
+    # Use the value variable here to turn histogram counts into weighted
+    # values.
+    hue='gender',
+    multiple='stack',
+    palette=['#24b1d1', '#ae24d1'],
+    # Add white borders to the bars.
+    edgecolor='white',
+    # Shrink the bars a bit so they don't touch.
+    shrink=0.8
+)
+for bar in ax.patches:
+    height = bar.get_height()
+    width = bar.get_width()
+    x = bar.get_x()
+    y = bar.get_y()
+    label_text = height
+    label_x = x + width / 2
+    label_y = y + height / 2
+    ax.text(label_x, label_y, label_text, ha='center',    
+            va='center',rotation='vertical')
+plt.xticks(rotation=45)
+plt.xlabel('discipline')
+plt.ylabel('count of --> male nd female')
+# show the graph    
+plt.title('Male and Female athelets with respect to age')
+plt.show()
