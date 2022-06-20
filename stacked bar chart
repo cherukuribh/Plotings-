@@ -1,0 +1,26 @@
+	Plot 2 : Stacked bar chart using matplotlib
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('newdata.csv') #read dataset
+df.head(10) #print 1st 10 rows
+sorted_df = df.groupby('discipline').gender.value_counts().unstack()
+print(sorted_df) #selected coloums for ploting and grouped into a sub table
+ax = sorted_df.plot.bar(stacked=True) #stacked barchart using matplotlib
+plt.xlabel('discipline') #x-label to be displayed on plot
+plt.ylabel('count --> male nd female') #y-label tobe displayed plot
+plt.title('Male & Female athelets in each discipline') #title tobe displayed plot
+plt.xticks(rotation=45)
+for bar in ax.patches:
+    height = bar.get_height()
+    width = bar.get_width()
+    x = bar.get_x()
+    y = bar.get_y()
+    label_text = height
+    label_x = x + width / 2
+    label_y = y + height / 2
+    ax.text(label_x, label_y, label_text, ha='center',    
+            va='center',rotation='vertical')
+#for displaying the values on the bar plots
+plt.show() #show plot()
