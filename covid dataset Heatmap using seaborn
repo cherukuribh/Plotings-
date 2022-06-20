@@ -1,0 +1,35 @@
+Dataset 2: covid_ind.csv
+I have selected a publicly available dataset “covid data” from Kaggle  which have some interesting features related to covid cases in India. Information includes date, confirmed cases, active cases, cured etc. each athlete like age, gender, sport, country etc.
+Below is the snippet of the dataset named “covid_ind.csv” gives covid cases information which I have used as input.
+ 
+	Plot 5: Heatmap using seaborn (represents all covid cases info )
+import seaborn as sns
+import pandas as pd
+
+df = pd.read_csv('covid_ind.csv') #read dataset
+df.head(10) #print 1st 10 rows
+
+f = {
+        'Confirmed_Cases' : 'sum', 
+        'Active_Cases' : 'sum',
+        'Cured' : 'sum', 
+        'Death' : 'sum',
+}
+
+g = df.groupby(['Year', 'Month'])
+
+v1 = g.agg(f)
+v2 = g.agg(lambda x:x.drop_duplicates('Date', keep='first').Confirmed_Cases.sum())
+print(v1)
+sorted_df = pd.concat([v1, v2],1)#.to_frame('Confirmed_Cases')], 1)
+
+#sorted_df = pd.concat([v1, v2.to_frame('Confirmed_Cases')], 1)
+
+print(sorted_df)
+
+display = sns.heatmap(v1) # heat map using seaborn
+#ax = sorted_df.plot.bar(stacked=True)
+plt.title('Covid Cases in India')
+plt.xticks(rotation=45)
+plt.yticks(rotation=45)
+plt.show()
